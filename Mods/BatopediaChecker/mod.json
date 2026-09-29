@@ -1,0 +1,7 @@
+{
+	"id":"batopedia_checker",
+	"name":"Batopedia Checker",
+	"version":"1.1.0",
+	"description":"Shows earned Batopedia completion icons on monster cards.",
+	"settings":[{"key":"show_tooltip","label":"Tooltip Icons","type":"bool","default":true},{"key":"show_team","label":"Team View Icons","type":"bool","default":true,"description":"Includes team and bench cards."},{"key":"show_shop","label":"Shop Icons","type":"bool","default":true}]
+}
