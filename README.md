@@ -1,3 +1,13 @@
+# Batomon Showdown Mod Repository
+
+Hello! This repository currently contains a mod loader for Batomon Showdown and various compatible mods. If you'd like your mod added here, please feel free to DM me on Discord and let me know. I'm also active in the [Batomon Showdown Discord server](https://discord.gg/kyArnasVTU)'s #modding channel, where I'd recommend sharing about development of mods and such.
+
+This repo currently includes the following:
+
+- Batomon Showdown Mod Loader, mostly by [@EmoUsedHM01](https://github.com/EmoUsedHM01) with some tweaks by [@madibye](https://github.com/madibye)
+- BatopediaChecker, by [@EmoUsedHM01](https://github.com/EmoUsedHM01)
+- KeybindsMod, by [@madibye](https://github.com/madibye)
+
 # Batomon Showdown Mod Loader
 
 ## Install
