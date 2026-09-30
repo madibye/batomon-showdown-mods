@@ -10,7 +10,7 @@ var title_menu_scale := Vector2.ONE:
 		if not is_node_ready():
 			await ready
 		for anim_name in title_menu_anim_player.get_animation_list():
-			var anim := title_menu_anim_player.get_animation(anim_name)
+			var anim: Animation = title_menu_anim_player.get_animation(anim_name)
 			for key in anim.track_get_key_count(0):
 				anim.track_set_key_value(0, key, anim_key_values.get(anim_name, {}).get(key, Vector2.ONE) * title_menu_scale)
 		if title_menu.visible:
@@ -18,10 +18,8 @@ var title_menu_scale := Vector2.ONE:
 
 func _ready():
 	super()
-	for i in 5:
-		title_menu_vbox_container.add_child(new_run_button.duplicate())
 	for anim_name in title_menu_anim_player.get_animation_list():
-		var anim := title_menu_anim_player.get_animation(anim_name)
+		var anim: Animation = title_menu_anim_player.get_animation(anim_name)
 		anim_key_values[anim_name] = {}
 		for key in anim.track_get_key_count(0):
 			anim_key_values[anim_name][key] = anim.track_get_key_value(0, key)
