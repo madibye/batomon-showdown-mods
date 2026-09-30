@@ -1,5 +1,7 @@
 extends SettingsMenu
 ## Extend the original menu, preserving native settings and navigation.
+const Loader := preload("res://Mods/mod_loader.gd")
+
 var mods_tab_button: Button
 var mods_page: VBoxContainer
 var mod_rows: VBoxContainer
@@ -9,7 +11,7 @@ var mod_error: Label
 var mod_scroll: ScrollContainer
 var available_mods: Array = []
 var selected_mod = 0
-var loader: Node
+var loader: Loader
 
 func _ready() -> void:
 	super._ready()
@@ -24,6 +26,7 @@ func _ready() -> void:
 	tabs.add_child(mods_tab_button)
 	tabs.move_child(mods_tab_button, system_tab_button.get_index() + 1)
 	mods_page = VBoxContainer.new()
+	mods_page.custom_minimum_size.y = maxf(game_page.custom_minimum_size.y, system_page.custom_minimum_size.y)
 	mods_page.name = "ModsPage"
 	mods_page.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	game_page.get_parent().add_child(mods_page)
@@ -39,6 +42,7 @@ func _ready() -> void:
 	_set_tooltip_theme(mod_info)
 	mods_page.add_child(mod_info)
 	mod_scroll = ScrollContainer.new()
+	mod_scroll.theme = load("res://assets/ui/themes/scroll_bar/scroll_bar.tres")
 	mod_scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
 	mod_scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	mod_scroll.follow_focus = true
@@ -50,6 +54,7 @@ func _ready() -> void:
 	mod_error.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	mod_error.add_theme_font_size_override("font_size", 10)
 	mod_error.add_theme_color_override("font_color", Color("b82349"))
+	mod_error.hide()
 	mods_page.add_child(mod_error)
 	mods_page.hide()
 	_build_mod_rows()
@@ -73,7 +78,7 @@ func update_ui_text():
 		if row.has_method("refresh_input_layout"): row.refresh_input_layout()
 	mod_picker.refresh_input_layout()
 	mods_page.custom_minimum_size.y = maxf(game_page.custom_minimum_size.y, system_page.custom_minimum_size.y)
-	mod_scroll.custom_minimum_size.y = 124 if SettingsManager.is_touch_mode() else 90
+	mod_scroll.custom_minimum_size.y = 163.0 if SettingsManager.is_touch_mode() else 129.0
 
 func _on_tab_pressed(button: BaseButton) -> void:
 	_select_tab(button)
@@ -121,6 +126,7 @@ func _build_mod_rows():
 		mod_rows.remove_child(row)
 		row.queue_free()
 	mod_error.text = ""
+	mod_error.visible = false
 	mod_scroll.scroll_vertical = 0
 	if available_mods.is_empty():
 		mod_picker.update("None")
@@ -151,10 +157,18 @@ func _build_mod_rows():
 			row.incremented.connect(_change_value.bind(row, info.id, setting, 1))
 			row.decremented.connect(_change_value.bind(row, info.id, setting, -1))
 			row.activated.connect(_change_value.bind(row, info.id, setting, 1))
+	var custom_settings_menu_entries = loader.call_mod_method(info.folder, &"make_custom_settings_menu_entries")
+	if not custom_settings_menu_entries is Array:
+		return
+	for entry in custom_settings_menu_entries:
+		if not entry is Control:
+			continue
+		mod_rows.add_child(entry)
 
 func _save_value(id: String, key: String, value: Variant):
 	var error = loader.set_config(id, key, value)
 	mod_error.text = "" if error == OK else "Could not save: " + error_string(error)
+	mod_error.visible = error != OK
 
 func _refresh_value(row, id, setting):
 	var value = loader.get_config(id, setting.key)

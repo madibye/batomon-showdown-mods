@@ -23,10 +23,7 @@ func _config_changed(mod_id, _key, _value):
 		var key = "show_tooltip" if kind == "description" else "show_" + kind
 		_visibility[kind] = loader.get_config("batopedia_checker", key, true)
 
-func _ready():
-	mod_bootstrap()
-
-func mod_bootstrap():
+func mod_ready():
 	if _started: return
 	_started = true
 	var loader = get_node_or_null("/root/ModLoader")
@@ -159,4 +156,3 @@ class CompletionIcons extends Control:
 			if mask & (1 << i):
 				draw_texture_rect(textures[i], Rect2(origin + Vector2(index * icon_size, 0), Vector2.ONE * icon_size), false)
 				index += 1
-

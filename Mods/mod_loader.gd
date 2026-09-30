@@ -219,10 +219,17 @@ func _prepare_mod_entry(pack_name: String) -> void:
 	node.name = pack_name.validate_node_name()
 	_mod_nodes[pack_name] = node
 	_mod_entry_paths[pack_name] = load_path
-	if node.has_method("mod_init"):
-		node.call("mod_init")
+	call_mod_method(pack_name, &"mod_init")
 	_log("Prepared " + load_path)
-
+	
+func get_mod_node(pack_name: String) -> Node:
+	return _mod_nodes.get(pack_name)
+	
+func call_mod_method(pack_name: String, method: StringName) -> Variant:
+	var mod_node = get_mod_node(pack_name)
+	if mod_node and mod_node.has_method(method):
+		return mod_node.call(method)
+	return null
 
 func _start_mod_entry(pack_name: String) -> void:
 	if not _mod_nodes.has(pack_name):
@@ -230,10 +237,8 @@ func _start_mod_entry(pack_name: String) -> void:
 	var node: Node = _mod_nodes[pack_name]
 	var load_path: String = _mod_entry_paths.get(pack_name, pack_name)
 	add_child(node)
-	if node.has_method("mod_ready"):
-		node.call("mod_ready")
-	if node.has_method("mod_bootstrap"):
-		node.call("mod_bootstrap")
+	call_mod_method(pack_name, &"mod_ready")
+	call_mod_method(pack_name, &"mod_bootstrap")
 	_log("Started " + load_path)
 
 
