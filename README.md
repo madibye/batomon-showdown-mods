@@ -51,6 +51,9 @@ func mod_ready():
 
 func mod_bootstrap():
 	# Legacy runtime hook. Still called after mod_ready() for existing mods.
+
+func make_custom_settings_menu_entries() -> Array[Control]:
+  # Use to return Control nodes to put in the settings menu.
 ```
 
 A mod script's native `_init()` runs when the loader instantiates it, and native `_ready()` runs when the loader adds it to the tree. If a mod also calls bootstrap in `_ready()`, its bootstrap should guard against repeated initialization.
