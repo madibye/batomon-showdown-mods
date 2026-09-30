@@ -2,7 +2,7 @@ extends Node
 
 const OVERLAY_NAME = "KeybindsMod"
 const KEYBINDS_CONF_PATH = "res://Mods/KeybindsMod/keybinds.json"
-const SETTINGS_MENU = preload("res://game/ui/common/settings_menu.tscn")
+const SettingsEntryKeybind := preload("res://Mods/KeybindsMod/settings_entry_keybind.gd")
 const KEYBIND_LISTENER_SCRIPTS = [
 	"shop_ui",
 	"trainer_select_state",
@@ -11,25 +11,31 @@ const KEYBIND_LISTENER_SCRIPTS = [
 const OTHER_SCRIPTS = [
 	"settings_menu"
 ]
-const KEYBIND_ACTIONS = {
+const KEYBIND_ACTIONS_DEFAULTS = {
 	&"request_battle": "k4194309",
 	&"reroll_shop": "k82",
 	&"show_dex": "k68",
 	&"show_settings": "k70",
 	&"show_trinkets": "k84"
 }
+const KEYBIND_ACTIONS_NAMES = {
+	&"request_battle": "Start Battle",
+	&"reroll_shop": "Reroll Shop",
+	&"show_dex": "Toggle Batopedia",
+	&"show_settings": "Toggle Settings",
+	&"show_trinkets": "Toggle Trinkets UI"
+}
 
 var _started = false
 var nodes: Dictionary[String, WeakRef] = {}
 var _using_controller: bool:
 	get: return InputManager.is_using_controller()
-	
-func _ready():
-	mod_bootstrap()
+var loader: Node
 
-func mod_bootstrap():
+func mod_ready():
 	if _started: return
 	_started = true
+	loader = get_node("/root/ModLoader")
 	get_tree().node_added.connect(_on_node_added)
 	_scan.call_deferred(get_tree().root)
 	var rfile = FileAccess.open(KEYBINDS_CONF_PATH, FileAccess.READ)
@@ -38,8 +44,8 @@ func mod_bootstrap():
 		parsed_str = JSON.parse_string(rfile.get_as_text())
 		rfile.close()
 	var keybind_conf: Dictionary = {} if (not parsed_str is Dictionary) else parsed_str
-	for keybind in KEYBIND_ACTIONS:
-		var stored_keybind: String = keybind_conf.get(keybind, KEYBIND_ACTIONS[keybind])
+	for keybind in KEYBIND_ACTIONS_DEFAULTS:
+		var stored_keybind: String = keybind_conf.get(keybind, KEYBIND_ACTIONS_DEFAULTS[keybind])
 		InputMap.add_action(keybind)
 		var event: InputEvent
 		if stored_keybind.begins_with("k"):
@@ -95,4 +101,13 @@ func _input(event):
 			else:
 				continue
 			get_viewport().set_input_as_handled()
-	
+
+func make_custom_settings_menu_entries() -> Array[Control]:
+	var entries := []
+	print(entries)
+	for action in KEYBIND_ACTIONS_NAMES:
+		var entry: SettingsEntryKeybind = load("res://Mods/KeybindsMod/settings_entry_keybind.tscn").instantiate()
+		entries.append(entry)
+		entry.keybind_id = action
+		entry.keybind_name = KEYBIND_ACTIONS_NAMES.get(action, "")
+	return entries
