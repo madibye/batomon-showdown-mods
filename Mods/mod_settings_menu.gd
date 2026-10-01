@@ -137,7 +137,6 @@ func _build_mod_rows():
 	mod_picker.set_active(true)
 	mod_picker.update(info.name)
 	mod_info.text = "%s | v%s%s" % [info.name, info.version, (" | " + info.author) if not info.author.is_empty() else ""]
-	mod_info.tooltip_text = info.description
 	for setting in info.settings:
 		if setting.type == "string":
 			var box = VBoxContainer.new()
@@ -158,12 +157,21 @@ func _build_mod_rows():
 			row.decremented.connect(_change_value.bind(row, info.id, setting, -1))
 			row.activated.connect(_change_value.bind(row, info.id, setting, 1))
 	var custom_settings_menu_entries = loader.call_mod_method(info.folder, &"make_custom_settings_menu_entries")
-	if not custom_settings_menu_entries is Array:
-		return
-	for entry in custom_settings_menu_entries:
-		if not entry is Control:
-			continue
-		mod_rows.add_child(entry)
+	if custom_settings_menu_entries is Array:
+		for entry in custom_settings_menu_entries:
+			if not entry is Control:
+				continue
+			mod_rows.add_child(entry)
+	print(mod_rows.get_children())
+	if len(mod_rows.get_children()) == 0:
+		var description_label := Label.new()
+		description_label.theme = load("res://assets/ui/themes/text/description_text.tres")
+		description_label.text = info.description
+		mod_rows.add_child(description_label)
+		mod_info.tooltip_text = ""
+	else:
+		mod_info.tooltip_text = info.description
+
 
 func _save_value(id: String, key: String, value: Variant):
 	var error = loader.set_config(id, key, value)
