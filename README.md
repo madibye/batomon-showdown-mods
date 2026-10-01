@@ -6,6 +6,7 @@ This repo currently includes the following:
 
 - Batomon Showdown Mod Loader, mostly by [@EmoUsedHM01](https://github.com/EmoUsedHM01) with some tweaks by [@madibye](https://github.com/madibye)
 - BatopediaChecker, by [@EmoUsedHM01](https://github.com/EmoUsedHM01)
+- LeaderboardMod, by [@EmoUsedHM01](https://github.com/EmoUsedHM01)
 - KeybindsMod, by [@madibye](https://github.com/madibye)
 
 # Batomon Showdown Mod Loader
