@@ -104,7 +104,6 @@ func _input(event):
 
 func make_custom_settings_menu_entries() -> Array[Control]:
 	var entries := []
-	print(entries)
 	for action in KEYBIND_ACTIONS_NAMES:
 		var entry: SettingsEntryKeybind = load("res://Mods/KeybindsMod/settings_entry_keybind.tscn").instantiate()
 		entries.append(entry)
