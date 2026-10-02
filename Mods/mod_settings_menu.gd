@@ -24,6 +24,10 @@ func _ready() -> void:
 	mods_tab_button.set_pressed_no_signal(false)
 	var tabs = game_tab_button.get_parent()
 	tabs.add_child(mods_tab_button)
+	for child in system_tab_button.get_children():
+		if child is ButtonAudio:
+			mods_tab_button.add_child(child.duplicate())
+			break
 	tabs.move_child(mods_tab_button, system_tab_button.get_index() + 1)
 	mods_page = VBoxContainer.new()
 	mods_page.custom_minimum_size.y = maxf(game_page.custom_minimum_size.y, system_page.custom_minimum_size.y)
@@ -162,7 +166,6 @@ func _build_mod_rows():
 			if not entry is Control:
 				continue
 			mod_rows.add_child(entry)
-	print(mod_rows.get_children())
 	if len(mod_rows.get_children()) == 0:
 		var description_label := Label.new()
 		description_label.theme = load("res://assets/ui/themes/text/description_text.tres")
