@@ -106,12 +106,22 @@ func _ready() -> void:
 
 func _on_node_added(node: Node) -> void:
 	var script = node.get_script()
+	# node_added runs before _ready, so inherited onready fields initialize normally.
 	if _settings_script != null and script != null and script.resource_path.get_file().get_basename() == "settings_menu":
-		# node_added runs before _ready, so inherited onready fields initialize normally.
 		node.set_script(_settings_script)
-	if _title_script != null and script != null and script.resource_path.get_file().get_basename() == "title_state":
+	elif _title_script != null and script != null and script.resource_path.get_file().get_basename() == "title_state":
 		node.set_script(_title_script)
-
+	else:
+		return
+	place_exported_properties(node)
+		
+func place_exported_properties(node: Node):
+	var vanilla_scene_state: SceneState = load(node.scene_file_path).get_state()
+	for i in vanilla_scene_state.get_node_property_count(0):
+		var n := vanilla_scene_state.get_node_property_name(0, i)
+		var v = vanilla_scene_state.get_node_property_value(0, i)
+		if node.get(n) == null:
+			node.set(n, v)
 
 func _register_mod(pack_name: String) -> void:
 	var path = _mods_dir.path_join(pack_name).path_join("mod.json")
