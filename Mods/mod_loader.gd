@@ -3,7 +3,7 @@ extends Node
 ## Root-level archives remain supported for older installations.
 ## Packs load alphabetically; loose scripts take precedence over packed entries.
 
-const VERSION = "1.2.1"
+const VERSION = "1.2.2"
 const LOG_PREFIX := "[ModLoader] "
 const LOG_FILE_NAME := "mod_loader.log"
 
