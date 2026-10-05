@@ -1,8 +1,10 @@
 extends Node
 
+const Loader := preload("res://Mods/mod_loader.gd")
+const SettingsEntryKeybind := preload("res://Mods/KeybindsMod/settings_entry_keybind.gd")
+
 const OVERLAY_NAME = "KeybindsMod"
 const KEYBINDS_CONF_PATH = "res://Mods/KeybindsMod/keybinds.json"
-const SettingsEntryKeybind := preload("res://Mods/KeybindsMod/settings_entry_keybind.gd")
 const KEYBIND_LISTENER_SCRIPTS = [
 	"shop_ui",
 	"trainer_select_state",

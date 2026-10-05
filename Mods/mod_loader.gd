@@ -52,6 +52,7 @@ func _init() -> void:
 		for message in _dependency_errors:
 			_log(message)
 		return
+	
 	for pack_name in _loaded_packs:
 		_prepare_mod_entry(pack_name)
 

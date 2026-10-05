@@ -1,0 +1,10 @@
+{
+	"id":"dark_mode",
+	"name":"Dark Mode",
+	"author":"madibye",
+	"version":"1.0.0",
+	"description":"Makes the game darker for those who have trouble viewing bright colors.",
+	"settings":[
+		{"key":"night_battles","label":"Enable Nighttime Battles","type":"bool","default":true}
+	]
+}
