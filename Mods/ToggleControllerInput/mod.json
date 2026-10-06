@@ -1,0 +1,10 @@
+{
+	"id":"toggle_controller_input",
+	"name":"Toggle Controller Input",
+	"author":"madibye",
+	"version":"1.0.0",
+	"description":"Adds an option to toggle the ability to use controller, for those who always have their controllers connected.",
+	"settings":[
+		{"key":"controller_input","label":"Enable Controller Input","type":"bool","default":true}
+	]
+}
