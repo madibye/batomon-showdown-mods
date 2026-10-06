@@ -1,8 +1,0 @@
-{
-	"id":"leaderboard_mod",
-	"name":"Leaderboard",
-	"version":"1.0.0",
-	"description":"Adds an entry to the title screen to see the ranked leaderboard.",
-	"settings":[
-	]
-}
