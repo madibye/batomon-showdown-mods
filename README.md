@@ -1,6 +1,6 @@
 # Batomon Showdown Mod Repository
 
-Hello! This repository currently contains a mod loader for Batomon Showdown and various compatible mods. If you'd like your mod added here, please feel free to contact me on Discord and let me know. I'm also active in the [Batomon Showdown Discord server](https://discord.gg/kyArnasVTU)'s #modding channel, where I'd recommend sharing about development of mods and such. My only rule at the moment is that I will not be accepting AI generated or vibecoded mods onto this repo.
+Hello! This repository currently contains a mod loader for Batomon Showdown and various compatible mods. If you'd like your mod added here, or have any feature / mod requests, please feel free to contact me on Discord (madibye) and let me know. My only rule at the moment is that I will not be accepting mods that use any amount of AI generated assets or code onto this repo.
 
 This repo currently includes the following:
 
